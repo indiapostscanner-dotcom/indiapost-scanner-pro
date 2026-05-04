@@ -119,10 +119,15 @@ function payNow() {
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById("result").innerHTML =
-          "<b>License Key:</b><br>" + data.licenseKey +
-          "<br><b>Expiry Date:</b> " + data.expiryDate;
-      })
+  if (data.success) {
+    document.getElementById("result").innerHTML =
+      "<b>License Key:</b><br>" + data.licenseKey +
+      "<br><b>Expiry Date:</b> " + data.expiryDate;
+  } else {
+    document.getElementById("result").innerHTML =
+      "Payment successful, but error:<br>" + data.message;
+  }
+})
       .catch(() => {
         document.getElementById("result").innerHTML =
           "Payment done. If license is not shown, contact support with payment ID.";
