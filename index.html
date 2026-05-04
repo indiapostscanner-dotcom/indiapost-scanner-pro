@@ -1,58 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>IndiaPost Scanner Pro</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IndiaPost Scanner Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  font-family: Arial;
-  background: #f2f2f2;
-  text-align: center;
-  padding: 20px;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url("https://i.ibb.co/Y4fJbTLV") no-repeat center;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.box {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  max-width: 400px;
-  margin: auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
+    .box {
+      background: rgba(255,255,255,0.95);
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
 
-input, button {
-  width: 90%;
-  padding: 10px;
-  margin: 10px;
-}
+    h2 {
+      margin-bottom: 10px;
+    }
 
-button {
-  background: blue;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-</style>
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .pay-btn {
+      background: #ff6b00;
+      color: white;
+    }
+
+    .activate-btn {
+      background: blue;
+      color: white;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="box">
   <h2>IndiaPost Scanner Pro</h2>
+  <p>Enter details after payment</p>
 
-  <p>Enter your details to activate license</p>
+  <input type="text" id="name" placeholder="Your Name">
+  <input type="text" id="phone" placeholder="Phone Number">
+  <input type="text" id="deviceId" placeholder="Device ID">
 
-  <input id="name" placeholder="Your Name"><br>
-  <input id="phone" placeholder="Phone Number"><br>
-  <input id="deviceId" placeholder="Device ID"><br>
+  <!-- Razorpay Button -->
+  <button class="pay-btn" onclick="payNow()">Pay ₹199</button>
 
-  <button onclick="submitData()">Activate License</button>
+  <!-- Activate Button -->
+  <button class="activate-btn" onclick="submitData()">Activate License</button>
 
   <p id="result"></p>
 </div>
 
 <script>
+
+function payNow() {
+  window.open("https://rzp.io/rzp/GEaSpVLv", "_blank");
+}
+
 function submitData() {
   var name = document.getElementById("name").value;
   var phone = document.getElementById("phone").value;
@@ -69,11 +109,19 @@ function submitData() {
   })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("result").innerHTML =
-  "License Key:<br><b>" + data.licenseKey +
-  "</b><br>Expiry Date: " + data.expiryDate;
+    if (data.success) {
+      document.getElementById("result").innerHTML =
+        "<b>License Key:</b><br>" + data.licenseKey +
+        "<br><b>Expiry Date:</b> " + data.expiryDate;
+    } else {
+      document.getElementById("result").innerText = data.message;
+    }
+  })
+  .catch(err => {
+    document.getElementById("result").innerText = "Error connecting to server";
   });
 }
+
 </script>
 
 </body>
