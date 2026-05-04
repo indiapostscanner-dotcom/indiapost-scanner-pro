@@ -3,126 +3,145 @@
 <head>
   <title>IndiaPost Scanner Pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-        url("https://i.ibb.co/Y4fJbTLV") no-repeat center;
-      background-size: cover;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+        url("https://ibb.co/Y4fJbTLV") center/cover no-repeat;
     }
 
     .box {
-      background: rgba(255,255,255,0.95);
-      padding: 25px;
-      border-radius: 12px;
+      background: rgba(255,255,255,0.96);
+      padding: 28px;
+      border-radius: 18px;
       width: 90%;
-      max-width: 350px;
+      max-width: 380px;
       text-align: center;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      box-shadow: 0 0 25px rgba(0,0,0,0.45);
     }
 
-    h2 {
-      margin-bottom: 10px;
-    }
+    h2 { color: #c62828; font-size: 30px; }
+    p { color: #333; }
 
     input {
       width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 6px;
+      padding: 13px;
+      margin: 9px 0;
+      border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 16px;
+      box-sizing: border-box;
     }
 
     button {
       width: 100%;
-      padding: 12px;
-      margin-top: 10px;
+      padding: 14px;
+      margin-top: 12px;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 17px;
+      background: #c62828;
+      color: white;
       cursor: pointer;
     }
 
-    .pay-btn {
-      background: #ff6b00;
-      color: white;
-    }
-
-    .activate-btn {
-      background: blue;
-      color: white;
-    }
-
     #result {
-      margin-top: 15px;
-      font-size: 14px;
+      margin-top: 18px;
+      color: green;
+      font-size: 15px;
+      line-height: 1.5;
+      word-break: break-word;
     }
   </style>
 </head>
 
 <body>
+  <div class="box">
+    <h2>IndiaPost Scanner Pro</h2>
+    <p>Monthly License ₹199</p>
 
-<div class="box">
-  <h2>IndiaPost Scanner Pro</h2>
-  <p>Enter details after payment</p>
+    <input id="name" placeholder="Enter Name">
+    <input id="phone" placeholder="Phone Number">
+    <input id="deviceId" placeholder="Device ID shown in extension">
 
-  <input type="text" id="name" placeholder="Your Name">
-  <input type="text" id="phone" placeholder="Phone Number">
-  <input type="text" id="deviceId" placeholder="Device ID">
+    <button onclick="payNow()">Pay ₹199 & Generate License</button>
 
-  <!-- Razorpay Button -->
-  <button class="pay-btn" onclick="payNow()">Pay ₹199</button>
-
-  <!-- Activate Button -->
-  <button class="activate-btn" onclick="submitData()">Activate License</button>
-
-  <p id="result"></p>
-</div>
+    <div id="result"></div>
+  </div>
 
 <script>
-
 function payNow() {
-  window.open("https://rzp.io/rzp/GEaSpVLv", "_blank");
-}
+  var name = document.getElementById("name").value.trim();
+  var phone = document.getElementById("phone").value.trim();
+  var deviceId = document.getElementById("deviceId").value.trim();
 
-function submitData() {
-  var name = document.getElementById("name").value;
-  var phone = document.getElementById("phone").value;
-  var deviceId = document.getElementById("deviceId").value;
+  if (!name || !phone || !deviceId) {
+    alert("Please fill all details");
+    return;
+  }
 
-  fetch("https://script.google.com/macros/s/AKfycbwXtOFK7oXqH8A3QY7lWH4zKSHRyDmN8Cql7YJdwpxDmSzP_LeHVT-krngaHsHeMTjr5w/exec", {
-    method: "POST",
-    body: JSON.stringify({
+  var options = {
+    key: "rzp_test_SlJrZkyK4legTr",
+    amount: 19900,
+    currency: "INR",
+    name: "IndiaPost Scanner Pro",
+    description: "Monthly License",
+
+    notes: {
       name: name,
       phone: phone,
       deviceId: deviceId,
       plan: "monthly"
-    })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
+    },
+
+    handler: function(response) {
       document.getElementById("result").innerHTML =
-        "<b>License Key:</b><br>" + data.licenseKey +
-        "<br><b>Expiry Date:</b> " + data.expiryDate;
-    } else {
-      document.getElementById("result").innerText = data.message;
+        "Payment successful. Generating license...";
+
+      fetch("https://script.google.com/macros/s/AKfycbwXtOFK7oXqH8A3QY7lWH4zKSHRyDmN8Cql7YJdwpxDmSzP_LeHVT-krngaHsHeMTjr5w/exec", {
+        method: "POST",
+        body: JSON.stringify({
+          source: "checkout",
+          name: name,
+          phone: phone,
+          deviceId: deviceId,
+          plan: "monthly",
+          paymentId: response.razorpay_payment_id
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("result").innerHTML =
+          "<b>License Key:</b><br>" + data.licenseKey +
+          "<br><b>Expiry Date:</b> " + data.expiryDate;
+      })
+      .catch(() => {
+        document.getElementById("result").innerHTML =
+          "Payment done. If license is not shown, contact support with payment ID.";
+      });
+    },
+
+    prefill: {
+      name: name,
+      contact: phone
+    },
+
+    theme: {
+      color: "#c62828"
     }
-  })
-  .catch(err => {
-    document.getElementById("result").innerText = "Error connecting to server";
-  });
+  };
+
+  var rzp = new Razorpay(options);
+  rzp.open();
 }
-
 </script>
-
 </body>
 </html>
