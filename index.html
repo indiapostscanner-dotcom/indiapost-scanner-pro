@@ -69,7 +69,9 @@ function submitData() {
   })
   .then(res => res.json())
   .then(data => {
-    document.getElementById("result").innerText = data.message;
+    document.getElementById("result").innerHTML =
+  "License Key:<br><b>" + data.licenseKey +
+  "</b><br>Expiry Date: " + data.expiryDate;
   });
 }
 </script>
