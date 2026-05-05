@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IndiaPost Scanner Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <style>
@@ -12,80 +13,77 @@
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #7b0000, #111);
-      color: white;
-      min-height: 100vh;
-      animation: fadeIn 0.8s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(25px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      color: #fff;
     }
 
     .hero {
-      padding: 35px 18px;
       text-align: center;
+      padding: 35px 18px 15px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .logo {
       width: 85px;
       height: 85px;
-      margin: auto;
       border-radius: 50%;
-      background: white;
+      background: #fff;
       color: #c62828;
+      margin: auto;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 34px;
       font-weight: bold;
-      box-shadow: 0 0 25px rgba(255,255,255,0.4);
-      animation: floatUp 0.8s ease;
+      box-shadow: 0 0 25px rgba(255,255,255,0.35);
     }
 
     h1 {
-      font-size: 32px;
-      margin: 15px 0 5px;
-      animation: floatUp 1s ease;
+      font-size: 34px;
+      margin: 18px 0 8px;
     }
 
     .subtitle {
+      font-size: 16px;
       opacity: 0.9;
-      animation: floatUp 1.2s ease;
     }
 
-    .card {
+    .card, .section {
+      width: 92%;
+      max-width: 760px;
+      margin: 24px auto;
+      border-radius: 18px;
+      padding: 24px;
       background: rgba(255,255,255,0.96);
       color: #222;
-      width: 92%;
-      max-width: 430px;
-      margin: 25px auto;
-      padding: 25px;
-      border-radius: 18px;
       box-shadow: 0 15px 40px rgba(0,0,0,0.45);
-      animation: floatUp 1.3s ease;
+      animation: fadeIn 0.9s ease;
+    }
+
+    .payment-card {
+      max-width: 440px;
+      text-align: center;
     }
 
     input {
       width: 100%;
-      padding: 13px;
+      padding: 14px;
       margin: 9px 0;
-      border-radius: 9px;
+      border-radius: 10px;
       border: 1px solid #ccc;
-      font-size: 15px;
+      font-size: 16px;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       margin-top: 12px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       background: #c62828;
       color: white;
       font-size: 17px;
@@ -101,44 +99,63 @@
 
     #result {
       margin-top: 18px;
-      color: #0b7a20;
+      color: #087b1d;
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
       word-break: break-word;
     }
 
-    .info {
-      width: 92%;
-      max-width: 650px;
-      margin: 25px auto 45px;
-      background: rgba(0,0,0,0.55);
-      padding: 22px;
-      border-radius: 18px;
-      animation: floatUp 1.5s ease;
+    h2 {
+      color: #c62828;
+      margin-top: 0;
     }
 
-    .info h2 {
-      color: #ffd6d6;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
     }
 
-    .steps {
-      text-align: left;
-      line-height: 1.7;
-      font-size: 15px;
+    .mini {
+      background: #f7f7f7;
+      padding: 15px;
+      border-radius: 14px;
+      border-left: 5px solid #c62828;
     }
 
-    .note {
-      margin-top: 15px;
-      background: rgba(255,255,255,0.12);
+    .price-box {
+      text-align: center;
+      background: #fff5f5;
+      border: 1px solid #ffc7c7;
+      padding: 18px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .steps p, .section p, .section li {
+      line-height: 1.65;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 25px;
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    .notice {
+      background: #fff3cd;
+      color: #5b4600;
       padding: 12px;
       border-radius: 10px;
+      margin-top: 12px;
       font-size: 14px;
     }
 
-    .disclaimer {
-      font-size: 12px;
-      opacity: 0.75;
-      margin-top: 20px;
+    a {
+      color: #c62828;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -148,10 +165,13 @@
   <div class="hero">
     <div class="logo">IP</div>
     <h1>IndiaPost Scanner Pro</h1>
-    <p class="subtitle">Fast Bag Open Scanning Automation ⚡</p>
+    <p class="subtitle">Chrome Extension Based Productivity Tool for Faster Bag Scanning Workflow</p>
   </div>
 
-  <div class="card">
+  <div class="card payment-card">
+    <h2>Monthly License</h2>
+    <div class="price-box">₹199 / 30 Days</div>
+
     <input id="name" placeholder="Enter Name">
     <input id="phone" placeholder="Enter Mobile Number">
     <input id="deviceId" placeholder="Enter Device ID shown in extension">
@@ -159,32 +179,98 @@
     <button onclick="payNow()">Pay ₹199 & Generate License</button>
 
     <div id="result"></div>
+
+    <div class="notice">
+      📸 After payment, please take a screenshot of your License Key and Expiry Date.
+    </div>
   </div>
 
-  <div class="info">
-    <h2>How to Activate</h2>
-
-    <div class="steps">
-      <p><b>Step 1:</b> Install the Chrome extension on your office PC.</p>
-      <p><b>Step 2:</b> Open the extension and copy the <b>Device ID</b>.</p>
-      <p><b>Step 3:</b> Enter your Name, Mobile Number and Device ID on this website.</p>
-      <p><b>Step 4:</b> Complete the ₹199 monthly payment.</p>
-      <p><b>Step 5:</b> After successful payment, your License Key will appear on this page.</p>
-      <p><b>Step 6:</b> Take a screenshot of the License Key or copy it safely.</p>
-      <p><b>Step 7:</b> Paste the License Key inside the extension and click Activate.</p>
-    </div>
-
-    <div class="note">
-      📸 <b>Recommendation:</b> Please take a screenshot of your License Key and Expiry Date after payment. You may need it again while activating the extension.
-    </div>
-
-    <div class="note">
-      🔐 <b>Security:</b> One license works only with the Device ID used during purchase. It will not work on another PC.
-    </div>
-
-    <p class="disclaimer">
-      Disclaimer: This is an independent productivity tool and is not officially affiliated with or endorsed by India Post.
+  <div class="section">
+    <h2>About Our Service</h2>
+    <p>
+      IndiaPost Scanner Pro is a software-based productivity tool provided as a Chrome Extension.
+      It helps users automate repetitive article scanning tasks and improve workflow efficiency.
     </p>
+    <p>
+      After successful payment, the user receives a license key which is used to activate the extension
+      for the entered Device ID.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Service & Pricing Details</h2>
+    <div class="grid">
+      <div class="mini"><b>Product:</b><br>IndiaPost Scanner Pro Chrome Extension</div>
+      <div class="mini"><b>Plan:</b><br>Monthly License</div>
+      <div class="mini"><b>Price:</b><br>₹199</div>
+      <div class="mini"><b>Validity:</b><br>30 Days from activation</div>
+    </div>
+  </div>
+
+  <div class="section steps">
+    <h2>How It Works</h2>
+    <p><b>Step 1:</b> Download and install the Chrome Extension.</p>
+    <p><b>Step 2:</b> Open the extension and copy the Device ID.</p>
+    <p><b>Step 3:</b> Enter your Name, Mobile Number and Device ID on this website.</p>
+    <p><b>Step 4:</b> Complete the ₹199 payment using Razorpay.</p>
+    <p><b>Step 5:</b> License Key will be generated instantly after successful payment.</p>
+    <p><b>Step 6:</b> Copy or screenshot the License Key.</p>
+    <p><b>Step 7:</b> Paste the License Key inside the extension and click Activate.</p>
+  </div>
+
+  <div class="section">
+    <h2>Key Features</h2>
+    <div class="grid">
+      <div class="mini">⚡ Faster article scanning workflow</div>
+      <div class="mini">🔐 License key based activation</div>
+      <div class="mini">🖥️ Device ID based security</div>
+      <div class="mini">📅 30-day license validity</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Refund & Cancellation Policy</h2>
+    <p>
+      Since this is a digital software license, payments are generally non-refundable once the license key
+      has been generated. However, if a genuine technical issue occurs and the license cannot be activated,
+      users may contact support for assistance.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Privacy Policy</h2>
+    <p>
+      We collect only basic details such as Name, Mobile Number and Device ID for license generation and
+      activation purposes. We do not sell or share customer data with third parties.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Terms of Service</h2>
+    <p>
+      By purchasing and using this product, the user agrees to use the software only for lawful productivity
+      purposes. Unauthorized resale, distribution, modification or misuse of the software is strictly prohibited.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>Contact & Support</h2>
+    <p>
+      For support, license issues, activation help or refund-related queries, contact us at:
+    </p>
+    <p><b>Email:</b> <a href="mailto:aashgk19@gmail.com">aashgk19@gmail.com</a></p>
+  </div>
+
+  <div class="section">
+    <h2>Disclaimer</h2>
+    <p>
+      IndiaPost Scanner Pro is an independent productivity software tool. It is not officially affiliated with,
+      endorsed by, or operated by India Post or any government department.
+    </p>
+  </div>
+
+  <div class="footer">
+    © 2026 IndiaPost Scanner Pro. All rights reserved.
   </div>
 
 <script>
@@ -203,7 +289,7 @@ function payNow() {
     amount: 19900,
     currency: "INR",
     name: "IndiaPost Scanner Pro",
-    description: "Monthly License",
+    description: "Monthly License - 30 Days",
 
     notes: {
       name: name,
@@ -241,7 +327,7 @@ function payNow() {
       })
       .catch(() => {
         document.getElementById("result").innerHTML =
-          "Payment successful, but server error occurred. Please contact support with your Payment ID.";
+          "Payment successful, but server error occurred. Please contact support at aashgk19@gmail.com with your Payment ID.";
       });
     },
 
