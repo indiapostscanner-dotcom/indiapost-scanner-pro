@@ -67,7 +67,6 @@
     </div>
   </div>
 
-  <!-- Features, About, etc. sections -->
   <div class="section">
     <h2>About Our Service</h2>
     <p>IndiaPost Scanner Pro is a software-based productivity tool provided as a Chrome Extension. It helps users automate repetitive article scanning tasks and improve workflow efficiency.</p>
@@ -134,6 +133,7 @@
   <div class="footer">© 2026 IndiaPost Scanner Pro. All rights reserved.</div>
 
 <script>
+// ── Your Apps Script deployment URL ───────────────────────────
 const BACKEND_URL = "https://script.google.com/macros/s/AKfycbwXtOFK7oXqH8A3QY7lWH4zKSHRyDmN8Cql7YJdwpxDmSzP_LeHVT-krngaHsHeMTjr5w/exec";
 
 function setResult(html, type) {
@@ -158,8 +158,8 @@ function payNow() {
     alert("Please fill in Name, Mobile Number and Device ID.");
     return;
   }
-  if (!deviceId.match(/^[A-Z0-9]{3,20}$/)) {
-    alert("Device ID looks incorrect. Please copy it exactly from the extension.");
+  if (!deviceId.match(/^RMS[A-Z0-9]{8}$/)) {
+    alert("Device ID must be exactly 11 characters and start with RMS. Please copy it exactly from the extension.");
     return;
   }
 
@@ -181,9 +181,16 @@ function payNow() {
       payBtn.textContent = "Generating License…";
       setResult("✅ Payment successful! Generating your license key…", "loading");
 
+      // ══════════════════════════════════════════════════════════
+      // FIX: Content-Type must be "text/plain" NOT "application/json"
+      // Google Apps Script rejects preflight OPTIONS requests that
+      // "application/json" triggers. With "text/plain" the request
+      // goes directly without preflight and Apps Script receives it.
+      // The body is still valid JSON — only the header is changed.
+      // ══════════════════════════════════════════════════════════
       fetch(BACKEND_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method:  "POST",
+        headers: { "Content-Type": "text/plain" },  // ← THE FIX
         body: JSON.stringify({
           source:    "checkout",
           name:      name,
@@ -199,24 +206,28 @@ function payNow() {
         payBtn.textContent = "Pay ₹199 & Generate License";
 
         if (data.success) {
-          // FIX: Apps Script returns 'licenceKey' (British spelling)
-          var key     = data.licenceKey || data.licenseKey || "";
-          var expiry  = data.expiryDate  || "";
+          // Apps Script returns 'licenceKey' (British spelling)
+          var key    = data.licenceKey || data.licenseKey || "";
+          var expiry = data.expiryDate || "";
 
           if (!key) {
-            setResult("⚠️ Payment received but license key was empty. Please contact support with Payment ID: <b>" + response.razorpay_payment_id + "</b>", "error");
+            setResult(
+              "⚠️ Payment received but license key was empty.<br>" +
+              "Please contact support with Payment ID: <b>" + response.razorpay_payment_id + "</b>",
+              "error"
+            );
             return;
           }
 
           setResult(
             "<b>🎉 License Generated Successfully!</b><br><br>" +
             "<b>Your License Key:</b><br>" +
-            '<div class="key-box" onclick="copyKey(\'' + key + '\')" title="Click to copy">' + key + "</div>" +
+            '<div class="key-box" onclick="copyKey(\'' + key + '\')" title="Click to copy">' + key + '</div>' +
             '<div class="copy-hint">👆 Click the key above to copy it</div>' +
             "<br><b>Valid Until:</b> " + expiry +
             "<br><b>Device ID:</b> " + deviceId +
             "<br><br>📱 <b>Payment ID:</b> " + response.razorpay_payment_id +
-            "<br><br>✅ Paste this key in the extension → Activate button.",
+            "<br><br>✅ Paste this key in the extension and click Activate.",
             "success"
           );
         } else {
