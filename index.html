@@ -8,158 +8,40 @@
 
   <style>
     * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(135deg, #7b0000, #111); color: #fff; }
+    .hero { text-align: center; padding: 35px 18px 15px; animation: fadeIn 0.8s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .logo { width: 85px; height: 85px; border-radius: 50%; background: #fff; color: #c62828; margin: auto; display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: bold; box-shadow: 0 0 25px rgba(255,255,255,0.35); }
+    h1 { font-size: 34px; margin: 18px 0 8px; }
+    .subtitle { font-size: 16px; opacity: 0.9; }
+    .card, .section { width: 92%; max-width: 760px; margin: 24px auto; border-radius: 18px; padding: 24px; background: rgba(255,255,255,0.96); color: #222; box-shadow: 0 15px 40px rgba(0,0,0,0.45); animation: fadeIn 0.9s ease; }
+    .payment-card { max-width: 440px; text-align: center; }
+    input { width: 100%; padding: 14px; margin: 9px 0; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; }
+    button { width: 100%; padding: 15px; margin-top: 12px; border: none; border-radius: 12px; background: #c62828; color: white; font-size: 17px; font-weight: bold; cursor: pointer; transition: 0.25s; }
+    button:hover { background: #9f1f1f; transform: scale(1.02); }
+    button:disabled { background: #aaa; cursor: not-allowed; transform: none; }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #7b0000, #111);
-      color: #fff;
-    }
+    /* ── Result box ── */
+    #result { margin-top: 18px; font-size: 15px; line-height: 1.8; word-break: break-all; }
+    .result-success { background: #f0fff4; border: 2px solid #38a169; border-radius: 12px; padding: 18px; color: #1a6b3a; }
+    .result-error   { background: #fff5f5; border: 2px solid #e53e3e; border-radius: 12px; padding: 18px; color: #c62828; }
+    .result-loading { color: #555; font-style: italic; }
 
-    .hero {
-      text-align: center;
-      padding: 35px 18px 15px;
-      animation: fadeIn 0.8s ease;
-    }
+    /* Key display box */
+    .key-box { background: #1a1a2e; color: #00ff88; font-family: monospace; font-size: 17px; font-weight: bold; letter-spacing: 2px; padding: 14px; border-radius: 8px; margin: 10px 0; word-break: break-all; user-select: all; cursor: pointer; border: 2px solid #00ff88; }
+    .key-box:hover { background: #0d0d1f; }
+    .copy-hint { font-size: 12px; color: #666; margin-top: 4px; }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .logo {
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      background: #fff;
-      color: #c62828;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      font-weight: bold;
-      box-shadow: 0 0 25px rgba(255,255,255,0.35);
-    }
-
-    h1 {
-      font-size: 34px;
-      margin: 18px 0 8px;
-    }
-
-    .subtitle {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-
-    .card, .section {
-      width: 92%;
-      max-width: 760px;
-      margin: 24px auto;
-      border-radius: 18px;
-      padding: 24px;
-      background: rgba(255,255,255,0.96);
-      color: #222;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.45);
-      animation: fadeIn 0.9s ease;
-    }
-
-    .payment-card {
-      max-width: 440px;
-      text-align: center;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
-      margin: 9px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 12px;
-      background: #c62828;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    button:hover {
-      background: #9f1f1f;
-      transform: scale(1.02);
-    }
-
-    #result {
-      margin-top: 18px;
-      color: #087b1d;
-      font-size: 15px;
-      line-height: 1.6;
-      word-break: break-word;
-    }
-
-    h2 {
-      color: #c62828;
-      margin-top: 0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 14px;
-    }
-
-    .mini {
-      background: #f7f7f7;
-      padding: 15px;
-      border-radius: 14px;
-      border-left: 5px solid #c62828;
-    }
-
-    .price-box {
-      text-align: center;
-      background: #fff5f5;
-      border: 1px solid #ffc7c7;
-      padding: 18px;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .steps p, .section p, .section li {
-      line-height: 1.65;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 25px;
-      font-size: 13px;
-      opacity: 0.85;
-    }
-
-    .notice {
-      background: #fff3cd;
-      color: #5b4600;
-      padding: 12px;
-      border-radius: 10px;
-      margin-top: 12px;
-      font-size: 14px;
-    }
-
-    a {
-      color: #c62828;
-      font-weight: bold;
-    }
+    h2 { color: #c62828; margin-top: 0; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+    .mini { background: #f7f7f7; padding: 15px; border-radius: 14px; border-left: 5px solid #c62828; }
+    .price-box { text-align: center; background: #fff5f5; border: 1px solid #ffc7c7; padding: 18px; border-radius: 14px; font-size: 18px; font-weight: bold; }
+    .steps p, .section p, .section li { line-height: 1.65; }
+    .footer { text-align: center; padding: 25px; font-size: 13px; opacity: 0.85; }
+    .notice { background: #fff3cd; color: #5b4600; padding: 12px; border-radius: 10px; margin-top: 12px; font-size: 14px; }
+    a { color: #c62828; font-weight: bold; }
   </style>
 </head>
-
 <body>
 
   <div class="hero">
@@ -172,33 +54,28 @@
     <h2>Monthly License</h2>
     <div class="price-box">₹199 / 30 Days</div>
 
-    <input id="name" placeholder="Enter Name">
-    <input id="phone" placeholder="Enter Mobile Number">
-    <input id="deviceId" placeholder="Enter Device ID shown in extension">
+    <input id="name"     placeholder="Enter Your Name">
+    <input id="phone"    placeholder="Enter Mobile Number">
+    <input id="deviceId" placeholder="Enter Device ID shown in extension (e.g. RMS4CB165E5)">
 
-    <button onclick="payNow()">Pay ₹199 & Generate License</button>
+    <button id="pay-btn" onclick="payNow()">Pay ₹199 &amp; Generate License</button>
 
     <div id="result"></div>
 
     <div class="notice">
-      📸 After payment, please take a screenshot of your License Key and Expiry Date.
+      📸 After payment, please <strong>screenshot or copy</strong> your License Key immediately.
     </div>
   </div>
 
+  <!-- Features, About, etc. sections -->
   <div class="section">
     <h2>About Our Service</h2>
-    <p>
-      IndiaPost Scanner Pro is a software-based productivity tool provided as a Chrome Extension.
-      It helps users automate repetitive article scanning tasks and improve workflow efficiency.
-    </p>
-    <p>
-      After successful payment, the user receives a license key which is used to activate the extension
-      for the entered Device ID.
-    </p>
+    <p>IndiaPost Scanner Pro is a software-based productivity tool provided as a Chrome Extension. It helps users automate repetitive article scanning tasks and improve workflow efficiency.</p>
+    <p>After successful payment, the user receives a license key which is used to activate the extension for the entered Device ID.</p>
   </div>
 
   <div class="section">
-    <h2>Service & Pricing Details</h2>
+    <h2>Service &amp; Pricing Details</h2>
     <div class="grid">
       <div class="mini"><b>Product:</b><br>IndiaPost Scanner Pro Chrome Extension</div>
       <div class="mini"><b>Plan:</b><br>Monthly License</div>
@@ -210,11 +87,11 @@
   <div class="section steps">
     <h2>How It Works</h2>
     <p><b>Step 1:</b> Download and install the Chrome Extension.</p>
-    <p><b>Step 2:</b> Open the extension and copy the Device ID.</p>
+    <p><b>Step 2:</b> Open the extension and copy the Device ID shown in the License Status section.</p>
     <p><b>Step 3:</b> Enter your Name, Mobile Number and Device ID on this website.</p>
     <p><b>Step 4:</b> Complete the ₹199 payment using Razorpay.</p>
     <p><b>Step 5:</b> License Key will be generated instantly after successful payment.</p>
-    <p><b>Step 6:</b> Copy or screenshot the License Key.</p>
+    <p><b>Step 6:</b> Copy or screenshot the License Key (28 characters, no spaces).</p>
     <p><b>Step 7:</b> Paste the License Key inside the extension and click Activate.</p>
   </div>
 
@@ -229,58 +106,60 @@
   </div>
 
   <div class="section">
-    <h2>Refund & Cancellation Policy</h2>
-    <p>
-      Since this is a digital software license, payments are generally non-refundable once the license key
-      has been generated. However, if a genuine technical issue occurs and the license cannot be activated,
-      users may contact support for assistance.
-    </p>
+    <h2>Refund &amp; Cancellation Policy</h2>
+    <p>Since this is a digital software license, payments are generally non-refundable once the license key has been generated. However, if a genuine technical issue occurs and the license cannot be activated, users may contact support for assistance.</p>
   </div>
 
   <div class="section">
     <h2>Privacy Policy</h2>
-    <p>
-      We collect only basic details such as Name, Mobile Number and Device ID for license generation and
-      activation purposes. We do not sell or share customer data with third parties.
-    </p>
+    <p>We collect only basic details such as Name, Mobile Number and Device ID for license generation and activation purposes. We do not sell or share customer data with third parties.</p>
   </div>
 
   <div class="section">
     <h2>Terms of Service</h2>
-    <p>
-      By purchasing and using this product, the user agrees to use the software only for lawful productivity
-      purposes. Unauthorized resale, distribution, modification or misuse of the software is strictly prohibited.
-    </p>
+    <p>By purchasing and using this product, the user agrees to use the software only for lawful productivity purposes. Unauthorized resale, distribution, modification or misuse of the software is strictly prohibited.</p>
   </div>
 
   <div class="section">
-    <h2>Contact & Support</h2>
-    <p>
-      For support, license issues, activation help or refund-related queries, contact us at:
-    </p>
+    <h2>Contact &amp; Support</h2>
+    <p>For support, license issues, activation help or refund-related queries, contact us at:</p>
     <p><b>Email:</b> <a href="mailto:aashgk19@gmail.com">aashgk19@gmail.com</a></p>
   </div>
 
   <div class="section">
     <h2>Disclaimer</h2>
-    <p>
-      IndiaPost Scanner Pro is an independent productivity software tool. It is not officially affiliated with,
-      endorsed by, or operated by India Post or any government department.
-    </p>
+    <p>IndiaPost Scanner Pro is an independent productivity software tool. It is not officially affiliated with, endorsed by, or operated by India Post or any government department.</p>
   </div>
 
-  <div class="footer">
-    © 2026 IndiaPost Scanner Pro. All rights reserved.
-  </div>
+  <div class="footer">© 2026 IndiaPost Scanner Pro. All rights reserved.</div>
 
 <script>
+const BACKEND_URL = "https://script.google.com/macros/s/AKfycbwXtOFK7oXqH8A3QY7lWH4zKSHRyDmN8Cql7YJdwpxDmSzP_LeHVT-krngaHsHeMTjr5w/exec";
+
+function setResult(html, type) {
+  const el = document.getElementById("result");
+  el.innerHTML = '<div class="result-' + type + '">' + html + '</div>';
+}
+
+function copyKey(key) {
+  navigator.clipboard.writeText(key).then(() => {
+    alert("License Key copied to clipboard!\n\n" + key + "\n\nPaste this in your extension.");
+  }).catch(() => {
+    prompt("Copy this License Key (Ctrl+C):", key);
+  });
+}
+
 function payNow() {
-  var name = document.getElementById("name").value.trim();
-  var phone = document.getElementById("phone").value.trim();
-  var deviceId = document.getElementById("deviceId").value.trim();
+  var name     = document.getElementById("name").value.trim();
+  var phone    = document.getElementById("phone").value.trim();
+  var deviceId = document.getElementById("deviceId").value.trim().toUpperCase();
 
   if (!name || !phone || !deviceId) {
-    alert("Please fill Name, Mobile Number and Device ID");
+    alert("Please fill in Name, Mobile Number and Device ID.");
+    return;
+  }
+  if (!deviceId.match(/^[A-Z0-9]{3,20}$/)) {
+    alert("Device ID looks incorrect. Please copy it exactly from the extension.");
     return;
   }
 
@@ -290,58 +169,97 @@ function payNow() {
     currency: "INR",
     name: "IndiaPost Scanner Pro",
     description: "Monthly License - 30 Days",
-
     notes: {
-      name: name,
-      phone: phone,
+      name:     name,
+      phone:    phone,
       deviceId: deviceId,
-      plan: "monthly"
+      plan:     "monthly"
     },
-
     handler: function(response) {
-      document.getElementById("result").innerHTML =
-        "Payment successful. Generating license...";
+      var payBtn = document.getElementById("pay-btn");
+      payBtn.disabled = true;
+      payBtn.textContent = "Generating License…";
+      setResult("✅ Payment successful! Generating your license key…", "loading");
 
-      fetch("https://script.google.com/macros/s/AKfycbwXtOFK7oXqH8A3QY7lWH4zKSHRyDmN8Cql7YJdwpxDmSzP_LeHVT-krngaHsHeMTjr5w/exec", {
+      fetch(BACKEND_URL, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          source: "checkout",
-          name: name,
-          phone: phone,
-          deviceId: deviceId,
-          plan: "monthly",
+          source:    "checkout",
+          name:      name,
+          phone:     phone,
+          deviceId:  deviceId,
+          plan:      "monthly",
           paymentId: response.razorpay_payment_id
         })
       })
-      .then(res => res.json())
-      .then(data => {
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        payBtn.disabled = false;
+        payBtn.textContent = "Pay ₹199 & Generate License";
+
         if (data.success) {
-          document.getElementById("result").innerHTML =
-            "<b>License Key:</b><br>" + data.licenseKey +
-            "<br><b>Expiry Date:</b> " + data.expiryDate +
-            "<br><br>📸 Please take a screenshot of this license key.";
+          // FIX: Apps Script returns 'licenceKey' (British spelling)
+          var key     = data.licenceKey || data.licenseKey || "";
+          var expiry  = data.expiryDate  || "";
+
+          if (!key) {
+            setResult("⚠️ Payment received but license key was empty. Please contact support with Payment ID: <b>" + response.razorpay_payment_id + "</b>", "error");
+            return;
+          }
+
+          setResult(
+            "<b>🎉 License Generated Successfully!</b><br><br>" +
+            "<b>Your License Key:</b><br>" +
+            '<div class="key-box" onclick="copyKey(\'' + key + '\')" title="Click to copy">' + key + "</div>" +
+            '<div class="copy-hint">👆 Click the key above to copy it</div>' +
+            "<br><b>Valid Until:</b> " + expiry +
+            "<br><b>Device ID:</b> " + deviceId +
+            "<br><br>📱 <b>Payment ID:</b> " + response.razorpay_payment_id +
+            "<br><br>✅ Paste this key in the extension → Activate button.",
+            "success"
+          );
         } else {
-          document.getElementById("result").innerHTML =
-            "Payment successful but error:<br>" + data.message;
+          setResult(
+            "⚠️ Payment was successful but license generation failed.<br>" +
+            "<b>Error:</b> " + (data.message || data.reason || "Unknown error") + "<br><br>" +
+            "Please contact support at <a href='mailto:aashgk19@gmail.com'>aashgk19@gmail.com</a> with:<br>" +
+            "<b>Payment ID:</b> " + response.razorpay_payment_id + "<br>" +
+            "<b>Device ID:</b> " + deviceId,
+            "error"
+          );
         }
       })
-      .catch(() => {
-        document.getElementById("result").innerHTML =
-          "Payment successful, but server error occurred. Please contact support at aashgk19@gmail.com with your Payment ID.";
+      .catch(function(err) {
+        payBtn.disabled = false;
+        payBtn.textContent = "Pay ₹199 & Generate License";
+        setResult(
+          "⚠️ Payment was successful but could not reach the server.<br><br>" +
+          "Please contact support at <a href='mailto:aashgk19@gmail.com'>aashgk19@gmail.com</a> with:<br>" +
+          "<b>Payment ID:</b> " + response.razorpay_payment_id + "<br>" +
+          "<b>Device ID:</b> " + deviceId + "<br>" +
+          "<b>Error:</b> " + err.message,
+          "error"
+        );
       });
     },
-
-    prefill: {
-      name: name,
-      contact: phone
-    },
-
-    theme: {
-      color: "#c62828"
+    prefill:  { name: name, contact: phone },
+    theme:    { color: "#c62828" },
+    modal: {
+      ondismiss: function() {
+        setResult("Payment was cancelled. Try again when ready.", "error");
+      }
     }
   };
 
   var rzp = new Razorpay(options);
+  rzp.on("payment.failed", function(response) {
+    setResult(
+      "❌ Payment failed: " + (response.error.description || "Unknown error") + "<br>" +
+      "Please try again or use a different payment method.",
+      "error"
+    );
+  });
   rzp.open();
 }
 </script>
